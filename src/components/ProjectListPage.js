@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import AddProject from "./AddProject";
 
 const API_URL = "http://localhost:5005";
 
@@ -26,6 +27,8 @@ function ProjectListPage() {
   
   return (
     <div className="ProjectListPage">
+
+        <AddProject refreshProjects={getAllProjects} />
       
         {projects.map((project) => {
           return (
