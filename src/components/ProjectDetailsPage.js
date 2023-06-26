@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link, useParams } from "react-router-dom";
+import AddTask from "./AddTask";
 
 const API_URL = "http://localhost:5005";
 
@@ -40,6 +41,8 @@ function ProjectDetailsPage (props) {
           <p>{project.description}</p>
         </>
       )}
+
+      <AddTask refreshProject={getProject} projectId={projectId} />
 
       {project &&
         project.tasks.map((task) => (
