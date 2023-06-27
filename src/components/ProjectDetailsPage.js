@@ -13,16 +13,14 @@ function ProjectDetailsPage (props) {
 
   // Get the URL parameter `:projectId` 
   const { projectId } = useParams(); 
-
   
-
   // Helper function that makes a GET request to the API
-
   // and retrieves the project by id
-
-  const getProject = () => {          //  <== ADD A NEW FUNCTION
+  const getProject = () => {
+    const storedToken = localStorage.getItem("authToken");
     axios
-      .get(`${API_URL}/api/projects/${projectId}`)
+      .get(`${API_URL}/api/projects/${projectId}`,
+      { headers: { Authorization: `Bearer ${storedToken}` } })
       .then((response) => {
         const oneProject = response.data;
         setProject(oneProject);
@@ -30,7 +28,7 @@ function ProjectDetailsPage (props) {
       .catch((error) => console.log(error));
   };
 
-    useEffect(()=> {                   // <== ADD AN EFFECT
+    useEffect(()=> {
         getProject();
     }, [] );  
 

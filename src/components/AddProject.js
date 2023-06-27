@@ -12,10 +12,12 @@ function AddProject(props) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    const storedToken = localStorage.getItem("authToken");
     const requestBody = { title, description };
 
     axios
-      .post(`${API_URL}/api/projects`, requestBody)
+      .post(`${API_URL}/api/projects`, requestBody,
+        { headers: { Authorization: `Bearer ${storedToken}` } })
       .then((response) => {
         // Reset the state
         setTitle("");
