@@ -1,12 +1,10 @@
 // src/pages/ProjectDetailsPage.js
 
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import AddTask from "./AddTask";
 import TaskCard from "./TaskCard";
-
-const API_URL = "http://localhost:5005";
+import projectsService from "../service/projects.service";
 
 function ProjectDetailsPage (props) {
   const [project, setProject] = useState(null);
@@ -17,10 +15,7 @@ function ProjectDetailsPage (props) {
   // Helper function that makes a GET request to the API
   // and retrieves the project by id
   const getProject = () => {
-    const storedToken = localStorage.getItem("authToken");
-    axios
-      .get(`${API_URL}/api/projects/${projectId}`,
-      { headers: { Authorization: `Bearer ${storedToken}` } })
+    projectsService.getProject(projectId)
       .then((response) => {
         const oneProject = response.data;
         setProject(oneProject);
