@@ -1,12 +1,8 @@
-// src/pages/LoginPage.js
-
 import { useContext, useState } from "react";
 import axios from "axios";
 import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/auth.context";
-
-const API_URL = "http://localhost:5005";
-
+import authService from "../service/auth.service";
 
 function LoginPage(props) {
   const [email, setEmail] = useState("");
@@ -24,22 +20,22 @@ function LoginPage(props) {
         e.preventDefault();
         const requestBody = { email, password };
 
-        axios.post(`${API_URL}/auth/login`, requestBody)
-        .then((response) => {
-        // Request to the server's endpoint `/auth/login` returns a response
-        // with the JWT string ->  response.data.authToken
-            console.log('JWT token', response.data.authToken );
-            storeToken(response.data.authToken);
+        authService.login(requestBody)
+          .then((response) => {
+          // Request to the server's endpoint `/auth/login` returns a response
+          // with the JWT string ->  response.data.authToken
+              console.log('JWT token', response.data.authToken );
+              storeToken(response.data.authToken);
 
-            // Verify the token by sending a request 
-            // to the server's JWT validation endpoint. 
-            authenticateUser();
-            navigate('/');
-        })
-        .catch((error) => {
-            const errorDescription = error.response.data.message;
-            setErrorMessage(errorDescription);
-        })
+              // Verify the token by sending a request 
+              // to the server's JWT validation endpoint. 
+              authenticateUser();
+              navigate('/');
+          })
+          .catch((error) => {
+              const errorDescription = error.response.data.message;
+              setErrorMessage(errorDescription);
+          });
     };
   
   return (
